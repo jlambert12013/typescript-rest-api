@@ -1,20 +1,23 @@
 import express, { Application } from 'express'
-import mongoose from 'mongoose'
 import http from 'http'
 import log from './library/log'
-import authorRouter from './routes/api/authorRouter'
+import productRouter from './routes/api/productRouter'
+import { connect } from 'mongoose'
 import { config } from './config/config'
 
 const router: Application = express()
 
 //  MARK: Connect Database
-mongoose
-  .connect(config.mongo.uri, { retryWrites: true, w: 'majority' })
+
+connect(config.mongo.uri, { retryWrites: true })
   .then(() => {
     log.success('DATABASE CONNECTED ')
     startServer()
   })
-  .catch(() => log.error('MONGO NOT CONNECTED!'))
+  .catch((error) => {
+    log.error('MONGO NOT CONNECTED!')
+    log.error(error)
+  })
 
 // MARK: Server
 function startServer() {
@@ -58,7 +61,7 @@ function startServer() {
   })
 
   // MARK: Routes
-  router.use('/authors', authorRouter)
+  router.use('/product', productRouter)
 
   // MARK: Health Check
   router.get('/ping', (req, res) =>
