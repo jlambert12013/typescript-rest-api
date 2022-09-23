@@ -1,16 +1,16 @@
 import mongoose, { Document, Schema } from 'mongoose'
 
-export interface IAuthor {
-  name: string
+export interface IProduct {
+  type: string
 }
 
-export interface IAuthorModel extends IAuthor, Document {}
+export interface IProductModel extends IProduct, Document {}
 
 const ProductSchema: Schema = new Schema(
   {
-    name: { type: String, required: true },
+    type: { type: String, required: true },
   },
   { versionKey: false }
 )
 
-export default mongoose.model<IAuthorModel>('Product', ProductSchema)
+export default mongoose.model<IProductModel>('Product', ProductSchema)

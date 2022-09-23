@@ -11,8 +11,8 @@ const router = Router()
 
 router.get('/', getProducts)
 router.get('/:id', getProduct)
-router.post('/new', addProduct)
-router.patch('/update/:id', updateProduct)
+router.post('/', addProduct)
+router.patch('/:id', updateProduct)
 router.delete('/:id', removeProduct)
 
 export default router

@@ -61,7 +61,7 @@ function startServer() {
   })
 
   // MARK: Routes
-  router.use('/product', productRouter)
+  router.use('/api/products', productRouter)
 
   // MARK: Health Check
   router.get('/ping', (req, res) =>

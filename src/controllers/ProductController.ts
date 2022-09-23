@@ -2,7 +2,9 @@ import { Request, Response } from 'express'
 import mongoose from 'mongoose'
 import Product from '../models/Product'
 
-//  MARK: Create Product
+// @desc    Add product
+// @route   POST /api/products/
+// @access  Private
 export async function addProduct(req: Request, res: Response) {
   const { name } = req.body
 
@@ -17,14 +19,18 @@ export async function addProduct(req: Request, res: Response) {
     .catch((error) => res.status(500).json({ error }))
 }
 
-// MARK:  Read All Products
+// @desc    Get all products
+// @route   GET /api/products
+// @access  Public
 export async function getProducts(req: Request, res: Response) {
   return Product.find()
     .then((product) => res.status(200).json({ product }))
     .catch((error) => res.status(500).json({ error }))
 }
 
-// MARK:  Read Single Product
+// @desc    Get single product
+// @route   GET /api/product/id
+// @access  Public
 export async function getProduct(req: Request, res: Response) {
   const productID = req.params.productId
   return Product.findById(productID)
@@ -36,7 +42,9 @@ export async function getProduct(req: Request, res: Response) {
     .catch((error) => res.status(500).json({ error }))
 }
 
-// MARK:  Update Single Product
+// @desc    Update product
+// @route   PATCH /api/products/id
+// @access  Private
 export async function updateProduct(req: Request, res: Response) {
   const productID = req.params.productId
 
@@ -56,7 +64,9 @@ export async function updateProduct(req: Request, res: Response) {
     .catch((error) => res.status(500).json({ error }))
 }
 
-// MARK:  Remove Product
+// @desc    Remove product
+// @route   DELETE /api/products/id
+// @access  Public
 export async function removeProduct(req: Request, res: Response) {
   const productID = req.params.productId
 
