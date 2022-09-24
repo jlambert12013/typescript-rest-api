@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
+import { Types } from 'mongoose'
 import { Request, Response, NextFunction } from 'express'
-import { UserModel } from '../models/User'
+import UserSchema from '../models/User'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -25,9 +26,11 @@ export default async function protect(
       const verifiedJWT = jwt.verify(token, JWTS)
 
       // Get user from token
-      await UserModel.findById(verifiedJWT)
+      await UserSchema.findById(verifiedJWT)
         .select('password')
-        .then((res) => console.log(res))
+        .then(() => {
+          console.log('Hello')
+        })
 
       next()
     } catch (error) {

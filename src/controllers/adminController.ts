@@ -1,8 +1,8 @@
 import { Response } from 'express'
 
-// @desc    Add product
-// @route   GET /api/products/
-// @access
-export async function adminContoller(res: Response): Promise<void> {
+// @desc    Admin Dashbaoard
+// @route   GET /api/admin
+// @access  Private
+export async function adminContoller(res: Response) {
   res.send('ADMIN')
 }
