@@ -1,11 +1,16 @@
 import jwt from 'jsonwebtoken'
-import User from '../models/User'
-import asyncHandler from 'express-async-handler'
+import { Request, Response, NextFunction } from 'express'
+import { UserModel } from '../models/User'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
 const JWTS = process.env.JWT_SECRET ?? ''
-const protect = asyncHandler(async (req, res, next) => {
+
+export default async function protect(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   let token
 
   if (
@@ -20,7 +25,7 @@ const protect = asyncHandler(async (req, res, next) => {
       const verifiedJWT = jwt.verify(token, JWTS)
 
       // Get user from token
-      await User.findById(verifiedJWT)
+      await UserModel.findById(verifiedJWT)
         .select('password')
         .then((res) => console.log(res))
 
@@ -36,6 +41,4 @@ const protect = asyncHandler(async (req, res, next) => {
     res.status(401)
     throw new Error('Not Authorized, no token.')
   }
-})
-
-export default module.exports = protect
+}

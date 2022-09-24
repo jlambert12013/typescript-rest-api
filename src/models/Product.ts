@@ -49,10 +49,10 @@ const ProductSchema: Schema = new Schema(
       type: Array,
       required: false,
     },
-    image: {
-      type: Image,
-      required: false,
-    },
+    // image: {
+    //   type: Image,
+    //   required: false,
+    // },
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',
