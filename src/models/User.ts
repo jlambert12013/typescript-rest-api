@@ -1,45 +1,41 @@
-// user.model.ts
-import { Document, Schema, model } from 'mongoose'
+import mongoose, { Document, Schema, Types } from 'mongoose'
 
-// Create the interface
-export interface IUser extends Document {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-  photo?: string
-  birthday?: Date
+export interface IUserModel {
+  _id: Types.ObjectId
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  timestamp: Date
 }
 
-// Create the schema
-const UserSchema = new Schema<IUser>(
+export interface IUserModel extends Document {}
+
+const UserSchema: Schema = new Schema(
   {
+    _id: Types.ObjectId,
     firstName: {
       type: String,
-      required: true,
+      required: [true, 'Please add a first name.'],
     },
     lastName: {
       type: String,
-      required: true,
+      required: [true, 'Please add a last name.'],
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'Please add an email address.'],
+      lowercase: true,
+      unique: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Password is a required field.'],
     },
-    photo: String,
-    birthday: String,
   },
   {
-    timestamps: {
-      createdAt: 'createdAt',
-      updatedAt: 'updatedAt',
-    },
+    timestamps: true,
   }
 )
 
-// Create and export user model
-export const UserModel = model<IUser>('User', UserSchema)
+export default mongoose.model<IUserModel>('User', UserSchema)

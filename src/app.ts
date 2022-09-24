@@ -4,6 +4,8 @@ import log from './library/log'
 import productRouter from './routes/api/productRouter'
 import { connect } from 'mongoose'
 import { config } from './config/config'
+import adminRouter from './routes/api/adminRouter'
+import userRouter from './routes/api/userRouter'
 
 const router: Application = express()
 
@@ -62,6 +64,8 @@ function startServer() {
 
   // MARK: Routes
   router.use('/api/products', productRouter)
+  router.use('/api/admin', adminRouter)
+  router.use('/api/user', userRouter)
 
   // MARK: Health Check
   router.get('/ping', (req, res) =>

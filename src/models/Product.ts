@@ -58,10 +58,10 @@ const ProductSchema: Schema = new Schema(
       ref: 'User',
       required: true,
     },
-    timestamps: {
-      createdAt: 'createdAt',
-      updatedAt: 'updatedAt',
-    },
+    // timestamps: {
+    //   createdAt: 'createdAt',
+    //   updatedAt: 'updatedAt',
+    // },
   },
   { versionKey: false }
 )

@@ -1,5 +1,8 @@
 import { Response } from 'express'
 
-export default function adminController(req: Request, res: Response) {
-  res.send('Welcome, Admin')
+// @desc    Add product
+// @route   GET /api/products/
+// @access
+export async function adminContoller(res: Response): Promise<void> {
+  res.send('ADMIN')
 }

@@ -1,10 +1,11 @@
 // Express
-import express from 'express'
+import { Response, Router } from 'express'
 import protect from '../../middleware/auth'
-import adminContoller from '../../controllers/adminController'
 
-const router = express.Router()
+const router = Router()
 
-router.get('/', protect, adminContoller)
+async function adminRouter(res: Response) {
+  res.send('HELLO')
+}
 
-module.exports = router
+export default adminRouter
