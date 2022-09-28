@@ -5,7 +5,10 @@ import Product from '../models/Product'
 // @desc    Add product
 // @route   POST /api/products/
 // @access  Private
-export async function addProduct(req: Request, res: Response) {
+export async function addProduct(
+  req: Request,
+  res: Response
+): Promise<Response<any, Record<string, any>>> {
   const { name } = req.body
 
   const product = new Product({
@@ -22,7 +25,10 @@ export async function addProduct(req: Request, res: Response) {
 // @desc    Get all products
 // @route   GET /api/products
 // @access  Public
-export async function getProducts(req: Request, res: Response) {
+export async function getProducts(
+  _req: Request,
+  res: Response
+): Promise<Response<any, Record<string, any>>> {
   return Product.find()
     .then((product) => res.status(200).json({ product }))
     .catch((error) => res.status(500).json({ error }))
@@ -45,7 +51,10 @@ export async function getProduct(req: Request, res: Response) {
 // @desc    Update product
 // @route   PATCH /api/products/id
 // @access  Private
-export async function updateProduct(req: Request, res: Response) {
+export async function updateProduct(
+  req: Request,
+  res: Response
+): Promise<Response<any, Record<string, any>> | undefined> {
   const productID = req.params.productId
 
   return Product.findById(productID)
@@ -67,7 +76,10 @@ export async function updateProduct(req: Request, res: Response) {
 // @desc    Remove product
 // @route   DELETE /api/products/id
 // @access  Public
-export async function removeProduct(req: Request, res: Response) {
+export async function removeProduct(
+  req: Request,
+  res: Response
+): Promise<void> {
   const productID = req.params.productId
 
   Product.findByIdAndDelete(productID)

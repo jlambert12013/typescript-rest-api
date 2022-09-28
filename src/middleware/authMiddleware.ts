@@ -1,17 +1,10 @@
-import jwt from 'jsonwebtoken'
-import { Types } from 'mongoose'
 import { Request, Response, NextFunction } from 'express'
+import { config } from 'dotenv'
+import jwt from 'jsonwebtoken'
 import UserSchema from '../models/User'
-import * as dotenv from 'dotenv'
-dotenv.config()
+config()
 
-const JWTS = process.env.JWT_SECRET ?? ''
-
-export default async function protect(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function protect(req: Request, res: Response, next: NextFunction) {
   let token
 
   if (
@@ -21,17 +14,10 @@ export default async function protect(
     try {
       // Get token from header
       token = req.headers.authorization.split(' ')[1]
-
       // Verify token
-      const verifiedJWT = jwt.verify(token, JWTS)
-
+      const decoded = jwt.verify(token, process.env.JWT_SECRET ?? '')
       // Get user from token
-      await UserSchema.findById(verifiedJWT)
-        .select('password')
-        .then(() => {
-          console.log('Hello')
-        })
-
+      await UserSchema.findById(decoded).select('-password')
       next()
     } catch (error) {
       console.log(error)
@@ -39,7 +25,6 @@ export default async function protect(
       throw new Error('Not Authorized.')
     }
   }
-
   if (!token) {
     res.status(401)
     throw new Error('Not Authorized, no token.')

@@ -1,29 +1,32 @@
-import express, { Application, Request, Response } from 'express'
+import { connect } from 'mongoose'
+import express, { Application, Request, Response, NextFunction } from 'express'
 import http from 'http'
 import log from './library/log'
 import productRouter from './routes/api/productRouter'
-import adminRouter from './routes/api/adminRouter'
 import userRouter from './routes/api/userRouter'
-import { connect } from 'mongoose'
 import { config } from './config/config'
 
-const app: Application = express()
-
 //  MARK: Connect Database
-connect(config.mongo.uri, { retryWrites: true })
+connect(config.mongo.uri, {
+  retryWrites: true,
+  w: 'majority',
+})
   .then(() => {
     log.success('DATABASE CONNECTED ')
-    startServer()
+
+    // MARK: Start Server
+    server()
   })
   .catch((error) => {
     log.error('MONGO NOT CONNECTED!')
     log.error(error)
   })
 
-// MARK: Server
-function startServer() {
+const app: Application = express()
+
+const server = () => {
   // Request
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     log.success(
       `Incoming -> Method: [${req.method}] - URL: [${req.url}] - Ip: [${req.socket.remoteAddress}]`
     )
@@ -43,7 +46,7 @@ function startServer() {
   app.use(express.json())
 
   //  API Rules and Options
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', '*')
     res.header(
       'Access-Control-Allow-Headers',
@@ -63,16 +66,15 @@ function startServer() {
 
   // MARK: Routes
   app.use('/api/products', productRouter)
-  app.use('/api/admin', adminRouter)
   app.use('/api/user', userRouter)
 
   // MARK: Health Check
-  app.get('/ping', (req: Request, res: Response) =>
+  app.get('/ping', (_req: Request, res: Response) =>
     res.status(200).json({ message: 'SUCCESS' })
   )
 
   // MARK: Error Handler
-  app.use((req: Request, res: Response) => {
+  app.use((_req: Request, res: Response) => {
     const error = new Error('ROUTE WAS NOT FOUND...')
     log.error(error)
     return res.status(404).json({ message: error.message })
