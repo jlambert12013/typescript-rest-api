@@ -1,14 +1,18 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Backend API - The Park Band IOS & Android mobile application.",
+  "description": "Backend API",
   "main": "app.js",
   "scripts": {
     "build": "rm -rf build/ && tsc",
     "start": "node ./dist/app.js",
     "dev": "nodemon ./src/app.ts"
   },
-  "keywords": [],
+  "keywords": [
+    "typescript",
+    "Rest API",
+    "API"
+  ],
   "author": "Jim Lambert",
   "license": "ISC",
   "dependencies": {
