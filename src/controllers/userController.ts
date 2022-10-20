@@ -2,10 +2,10 @@ import asyncHandler from 'express-async-handler'
 import mongoose from 'mongoose'
 import { Request, Response } from 'express'
 import User, { IUserModel } from '../models/User'
-import { genSalt, hash, compare } from 'bcrypt'
+import { compare, genSalt, hash } from 'bcrypt'
 import generateToken from '../utils/generateToken'
 
-// REGISTRATION - NEW USERS CONTROLLER - @route POST /api/users
+// REGISTRATION - NEW USERS CONTROLLER
 // @desc    Register User
 // @route   POST /api/user/register
 // @params  firstName, lastName, email, password
@@ -58,25 +58,31 @@ export const registerUser = asyncHandler(
   }
 )
 
+// LOGIN - LOGIN CONTROLLER
 // @desc    Login user
 // @route   POST /api/user/login
+// @params  email, password
 // @access  Public
 export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, password }: IUserModel = await req.body
 
   if (!email || !password) {
     res.status(400)
-    throw new Error('Please include all fields.')
+    throw new Error('Please provide a valid email and password.')
   }
 
   const user = await User.findOne({ email })
+
+  if (!user) {
+    res.status(400)
+    throw new Error(`${email} doesn't exsist.`)
+  }
 
   if (user && (await compare(password, user.password))) {
     res.json({
       _id: user.id,
       name: user.firstName,
       email: user.email,
-      token: generateToken(user._id),
     })
   } else {
     res.status(400)
