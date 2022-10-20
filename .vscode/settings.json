@@ -6,7 +6,12 @@
   "javascript.format.semicolons": "remove",
   "explorer.compactFolders": false,
   "vsicons.presets.hideExplorerArrows": true,
+  "editor.autoClosingBrackets": "always",
   "files.exclude": {
-    "**/.*": true
+    "**/.gitignore": true,
+    "**/.prettierignore": true,
+    "**/.vscode": true,
+    "**/*-lock.json": true,
+    "**/node_modules": true
   }
 }

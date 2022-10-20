@@ -8,14 +8,14 @@ import generateToken from '../utils/generateToken'
 // REGISTRATION - NEW USERS CONTROLLER - @route POST /api/users
 // @desc    Register User
 // @route   POST /api/user/register
+// @params  firstName, lastName, email, password
 // @access  Public
 export const registerUser = asyncHandler(
   async (req: Request, res: Response) => {
     const { firstName, lastName, email, password }: IUserModel = req.body
 
     if (!firstName || !lastName || !email || !password) {
-      res.status(400)
-      throw new Error('Please include all fields.')
+      res.status(400).json({ message: 'PLEASE INCLUDE ALL REQUIRED FIELDS' })
     }
 
     // Check for Duplication

@@ -1,3 +1,0 @@
-
-NOTES
-Shortend ZSH Terminal Path - PROMPT="%n %1~ %# " 
