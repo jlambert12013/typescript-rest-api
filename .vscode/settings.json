@@ -3,5 +3,10 @@
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "prettier.semi": false,
-  "javascript.format.semicolons": "remove"
+  "javascript.format.semicolons": "remove",
+  "explorer.compactFolders": false,
+  "vsicons.presets.hideExplorerArrows": true,
+  "files.exclude": {
+    "**/.*": true
+  }
 }

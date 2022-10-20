@@ -7,7 +7,7 @@ import generateToken from '../utils/generateToken'
 
 // REGISTRATION - NEW USERS CONTROLLER - @route POST /api/users
 // @desc    Register User
-// @route   POST /api/user/rgister
+// @route   POST /api/user/register
 // @access  Public
 export const registerUser = asyncHandler(
   async (req: Request, res: Response) => {
