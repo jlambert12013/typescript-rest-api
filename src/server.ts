@@ -1,10 +1,30 @@
 import { config } from './config/config'
 import express, { Application, Request, Response, NextFunction } from 'express'
+import { OAuth2Client } from 'google-auth-library'
 import http from 'http'
 import log from './library/log'
 import userRouter from './routes/api/userRouter'
 
 const app: Application = express()
+const client = new OAuth2Client()
+
+async function verify(token: string) {
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.CLIENT_ID,
+  })
+
+  console.log(`\n\x1b[0mTICKET\x1b[0m`)
+  console.log(ticket)
+
+  const payload = ticket.getPayload()
+  console.log(payload)
+  // const userid = payload['sub']
+  // If request specified a G Suite domain:
+  // const domain = payload['hd'];
+}
+
+
 
 export default () => {
   // Request
@@ -46,8 +66,33 @@ export default () => {
     next()
   })
 
+  app.post(`/api/session/oauth/google`, (req, res) => {
+    console.log("POST REQUEST FROM CLIENT")
+    // console.log(`REQUEST FROM CLIENT: ${req.header}`)
+    // console.log(`RESPONSE FROM CLIENT: ${res}`)
+    const headers = req.headers
+    const body = req.body
+
+    console.log(`HEADERS`)
+    console.log(headers)
+    console.log(`BODY`)
+    console.log(body)
+
+    verify(body.idToken)
+
+  })
+
+
+
   // MARK: Routes
   app.use('/api/user', userRouter)
+
+  //MARK: Testing OAuth2.0
+  app.get("/api/sessions/oauth/google", (req: Request, res: Response) => {
+    console.log(res)
+    res.json({ messsage: "SUCCESS" })
+  })
+
 
   // MARK: Health Check
   app.all('/ping', (_req: Request, res: Response) =>
