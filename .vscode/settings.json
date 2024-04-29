@@ -15,5 +15,11 @@
     "**/node_modules": true
   },
   "json.schemas": [],
-  "scm.diffDecorations": "none"
+  "scm.diffDecorations": "none",
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }
